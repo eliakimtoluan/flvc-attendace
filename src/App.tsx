@@ -9,12 +9,13 @@ import { useGeofenceStore } from "./store/geofence.store";
 import AdminPortal from "./pages/admin-portal/Index";
 
 export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  "https://szcjrfuerbvwgvzoisyv.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y2pyZnVlcmJ2d2d2em9pc3l2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3MDQ3ODAsImV4cCI6MjA0NjI4MDc4MH0.eGAZk7u257bxWHeZBaA_egyrb7KYuIIBN38mLwWtXrU"
 );
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
+  console.log("🚀 ~ App ~ session:", session);
   const { profile, setProfile } = useProfileStore();
   const { geofence, get: getGeoFence } = useGetGeofence();
   const { setGeofence } = useGeofenceStore();
