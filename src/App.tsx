@@ -1,17 +1,16 @@
 import { createClient, Session } from "@supabase/supabase-js";
-import { LoginForm } from "./pages/landing-page/LoginForm";
 import { useEffect, useState } from "react";
-import AdminPortal from "./pages/admin-portal/index";
 import LandingPage from "./pages/landing-page/Index";
 import { Role, useProfileStore } from "./store/profile.store";
 import toast, { Toaster } from "react-hot-toast";
 import EmployeePortal from "./pages/employee-portal/Index";
 import { useGetGeofence } from "./hooks/use-geofence";
 import { useGeofenceStore } from "./store/geofence.store";
+import AdminPortal from "./pages/admin-portal/Index";
 
 export const supabase = createClient(
-  "https://szcjrfuerbvwgvzoisyv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y2pyZnVlcmJ2d2d2em9pc3l2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3MDQ3ODAsImV4cCI6MjA0NjI4MDc4MH0.eGAZk7u257bxWHeZBaA_egyrb7KYuIIBN38mLwWtXrU"
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 function App() {

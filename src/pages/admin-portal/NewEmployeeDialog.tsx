@@ -3,20 +3,16 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,8 +24,8 @@ import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 
 export const supabaseAdmin = createClient(
-  "https://szcjrfuerbvwgvzoisyv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y2pyZnVlcmJ2d2d2em9pc3l2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMDcwNDc4MCwiZXhwIjoyMDQ2MjgwNzgwfQ.YjkNHvVHA8ecmWKngSFSxbVrw0SD4eeEirsr6ZEGyDw"
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE!
 );
 
 const formSchema = z.object({
@@ -41,7 +37,6 @@ const formSchema = z.object({
 });
 
 export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
-  const [isLoading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,7 +47,7 @@ export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+    const { error } = await supabaseAdmin.auth.admin.createUser({
       email: values.email as string,
       password: values.password as string,
       email_confirm: true,
