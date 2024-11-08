@@ -11,7 +11,7 @@ export const enum Nav {
 
 const AdminPortal = () => {
   const { profile } = useProfileStore();
-  const [nav, setNav] = useState<Nav>(Nav.SETTING);
+  const [nav, setNav] = useState<Nav>(Nav.DASHBOARD);
   return (
     <>
       <AdminNav profile={profile} nav={nav} setNav={setNav} />

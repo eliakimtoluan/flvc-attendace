@@ -192,7 +192,7 @@ const LocationDialog = ({
     } catch (error) {
       console.log("🚀 ~ onSubmit ~ error:", error);
     }
-  }, [webcamRef]);
+  }, [webcamRef, latest]);
 
   return (
     <>
