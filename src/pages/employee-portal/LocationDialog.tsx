@@ -161,10 +161,12 @@ const LocationDialog = ({
   //   console.log("🚀 ~ uploadImage ~ data:", data);
   // };
 
-  const onSubmit = async (getScreenshot: any) => {
+  const webcamRef = React.useRef(null);
+  const capture = React.useCallback(async () => {
     try {
       setLoading(true);
-      const imageSrc = getScreenshot();
+      const imageSrc = webcamRef.current.getScreenshot();
+
       const file = dataURLtoFile(imageSrc, "image.jpeg");
       const file_path = `${isTimeIn ? "in" : "out"}_${
         latest.id
@@ -190,7 +192,8 @@ const LocationDialog = ({
     } catch (error) {
       console.log("🚀 ~ onSubmit ~ error:", error);
     }
-  };
+  }, [webcamRef]);
+
   return (
     <>
       {!loading && (
@@ -232,35 +235,33 @@ const LocationDialog = ({
             <Webcam
               audio={false}
               height={720}
+              ref={webcamRef}
               screenshotFormat="image/jpeg"
               width={720}
               videoConstraints={videoConstraints}
-            >
-              {({ getScreenshot }) => (
-                <>
-                  <DialogDescription className="text-xs mt-4">
-                    <MapPin /> Current Location:{" "}
-                    {`${userLocation?.latitude}(lat) ${userLocation?.longitude}(long)`}
-                  </DialogDescription>
-                  <DialogDescription className="text-xs">
-                    <MapIcon />
-                    Geofence:{" "}
-                    {`${geofence?.latitude}(lat) ${geofence?.longitude}(long)`}
-                  </DialogDescription>
-                  <DialogDescription className="text-xs">
-                    Radius: {`${geofence?.radius}`} meters
-                  </DialogDescription>
-                  <Button
-                    onClick={() => onSubmit(getScreenshot)}
-                    className="mt-10 w-full"
-                    disabled={isLoading || !geofence || !userLocation?.latitude}
-                    variant={isTimeIn ? "default" : "destructive"}
-                  >
-                    Time-{isTimeOut ? "Out" : "In"}
-                  </Button>
-                </>
-              )}
-            </Webcam>
+            ></Webcam>
+            <>
+              <DialogDescription className="text-xs mt-4">
+                <MapPin /> Current Location:{" "}
+                {`${userLocation?.latitude}(lat) ${userLocation?.longitude}(long)`}
+              </DialogDescription>
+              <DialogDescription className="text-xs">
+                <MapIcon />
+                Geofence:{" "}
+                {`${geofence?.latitude}(lat) ${geofence?.longitude}(long)`}
+              </DialogDescription>
+              <DialogDescription className="text-xs">
+                Radius: {`${geofence?.radius}`} meters
+              </DialogDescription>
+              <Button
+                onClick={capture}
+                className="mt-10 w-full"
+                disabled={isLoading || !geofence || !userLocation?.latitude}
+                variant={isTimeIn ? "default" : "destructive"}
+              >
+                Time-{isTimeOut ? "Out" : "In"}
+              </Button>
+            </>
           </div>
         </DialogContent>
       </Dialog>
