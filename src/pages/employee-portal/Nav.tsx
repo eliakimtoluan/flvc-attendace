@@ -13,11 +13,18 @@ import {
 import { getInitials } from "@/lib/utils";
 import { Profile, useProfileStore } from "@/store/profile.store";
 import { profile } from "console";
+import { LogOutIcon } from "lucide-react";
+import { EditEmployeeDialog } from "./EditEmployeeDialog";
+import { useState } from "react";
 
 const EmployeeNav = ({ profile }: { profile: Profile }) => {
   const fullName = `${profile?.first_name} ${profile?.last_name}`;
+  const [open, setOpen] = useState(false);
   return (
     <>
+      {open && (
+        <EditEmployeeDialog data={profile} open={open} setOpen={setOpen} />
+      )}
       <section className="overflow-hidden">
         <div>
           <div className="px-8 py-6 xl:py-0 bg-white border-b border-coolGray-100">
@@ -57,7 +64,10 @@ const EmployeeNav = ({ profile }: { profile: Profile }) => {
                 <div className=" xl:flex flex-wrap items-center -m-3">
                   <div className="w-auto p-3">
                     <div className="flex flex-wrap items-center -m-2">
-                      <div className="w-auto p-2">
+                      <div
+                        className="w-auto p-2 cursor-pointer"
+                        onClick={() => setOpen(true)}
+                      >
                         <div className="flex flex-wrap -m-2">
                           <div className="w-auto p-2">
                             <Avatar>
@@ -84,6 +94,7 @@ const EmployeeNav = ({ profile }: { profile: Profile }) => {
                             await supabase.auth.signOut();
                           }}
                         >
+                          <LogOutIcon />
                           Sign Out
                         </Button>
                       </div>

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -22,98 +22,86 @@ import toast from "react-hot-toast";
 import { Role } from "@/store/profile.store";
 import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
-import { PlusIcon } from "lucide-react";
-
-export const supabaseAdmin = createClient(
-  "https://szcjrfuerbvwgvzoisyv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y2pyZnVlcmJ2d2d2em9pc3l2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMDcwNDc4MCwiZXhwIjoyMDQ2MjgwNzgwfQ.YjkNHvVHA8ecmWKngSFSxbVrw0SD4eeEirsr6ZEGyDw"
-);
+import { supabaseAdmin } from "@/lib/supabaseClient";
+import {
+  EditIcon,
+  FileSpreadsheetIcon,
+  KeyIcon,
+  LockIcon,
+  PencilIcon,
+  SaveIcon,
+} from "lucide-react";
+import { ChangePasswordDialog } from "./ChangePasswordDialog";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  position: z.string(),
-  email: z.string().email(),
-  password: z.string().min(6).max(50),
+  position: z.string().optional(),
+  email: z.string().email().optional(),
 });
 
-export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
-  const [open, setOpen] = useState(false);
+export function EditEmployeeDialog({
+  data,
+  open,
+  setOpen,
+}: {
+  data: any;
+  open: boolean;
+  setOpen: any;
+}) {
+  console.log(data);
+  const [openPassword, setOpenPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      email: data.email,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      position: data.position,
     },
   });
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { error } = await supabaseAdmin.auth.admin.createUser({
-      email: values.email as string,
-      password: values.password as string,
-      email_confirm: true,
-      user_metadata: {
+    console.log("🚀 ~ onSubmit ~ values:", values);
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({
         first_name: values.first_name,
         last_name: values.last_name,
         position: values.position,
-        role: Role.EMPLOYEE,
-      },
-    });
+      })
+      .eq("id", data.id);
     if (error?.message) {
       toast.error(`${error.message}`);
       return;
     }
-    toast.success("Successfully Created!");
-    setOpen(false);
-    onRefresh();
+    setOpen(FileSpreadsheetIcon);
+    toast.success("Successfully Updated!");
   };
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
-        <PlusIcon /> New Employee
-      </Button>
+      {openPassword && (
+        <ChangePasswordDialog
+          data={data}
+          open={openPassword}
+          setOpen={setOpenPassword}
+          onSuccess={() => {
+            setOpenPassword(false);
+            setOpen(false);
+          }}
+        />
+      )}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>New Employee</DialogTitle>
-            <DialogDescription>
-              Add new employee for F.L .Vargas College
-            </DialogDescription>
+            <DialogTitle>Edit Employee</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid gap-4 py-4">
-                {/* <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="first_name" className="text-right">
-              First Name
-            </Label>
-            <Input id="first_name" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="last_name" className="text-right">
-              Last Name
-            </Label>
-            <Input id="last_name" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="position" className="text-right">
-              Position
-            </Label>
-            <Input id="position" className="col-span-3" placeholder="Teacher" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="email" className="text-right">
-              Email
-            </Label>
-            <Input id="email" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="password" className="text-right">
-              Password
-            </Label>
-            <Input id="password" className="col-span-3" />
-          </div> */}{" "}
                 <FormField
                   control={form.control}
                   name="first_name"
@@ -143,6 +131,7 @@ export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
                 <FormField
                   control={form.control}
                   name="position"
+                  disabled
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Position</FormLabel>
@@ -156,6 +145,7 @@ export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
                 <FormField
                   control={form.control}
                   name="email"
+                  disabled
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>
@@ -169,23 +159,17 @@ export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input placeholder="*******" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit">Save</Button>
+
+                <Button type="submit">
+                  <SaveIcon /> Update
+                </Button>
               </div>
             </form>
           </Form>
+          <Separator />
+          <Button variant="ghost" onClick={() => setOpenPassword(true)}>
+            <KeyIcon /> Change Password
+          </Button>
         </DialogContent>
       </Dialog>
     </>

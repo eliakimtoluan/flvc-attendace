@@ -13,7 +13,7 @@ const Timer = () => {
   return (
     <div className="flex items-center justify-center flex-col">
       <h2 className="text-center text-1xl text-gray-600">
-        {formatDate(`${new Date()}`, "MMMM d, YYYY")}
+        {formatDate(`${new Date()}`, "MMMM DD, YYYY")}
       </h2>
       <h1 className="text-6xl">{ctime}</h1>
     </div>

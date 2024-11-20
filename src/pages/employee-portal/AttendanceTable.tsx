@@ -9,9 +9,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { NewEmployeeDialog } from "./NewEmployeeDialog";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "@/App";
-import { Profile, Role } from "@/store/profile.store";
+import { Profile, Role, useProfileStore } from "@/store/profile.store";
 import { useGetProfiles } from "@/hooks/use-profile";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -31,15 +31,20 @@ import LocationDialog from "./LocationDialog";
 import { SquareUserIcon } from "lucide-react";
 import { AttendanceImage } from "./ImageDialog";
 
-const EmployeeTable = () => {
-  // const [list, setList] = useState<any>([]);
-  const { data, isLoading, error, get: getList } = useGetAttendance();
+const AttendanceTable = ({
+  employeeId,
+  viewOnly,
+}: {
+  employeeId: string;
+  viewOnly?: boolean;
+}) => {
+  const { data, isLoading, error, get: getList } = useGetAttendance(employeeId);
   const { data: newData, insert } = useCreateAttendance();
   const {
     data: latest,
     isLoading: latestLoading,
     get: getLatest,
-  } = useGetLatestAttendance();
+  } = useGetLatestAttendance(employeeId);
   const { data: timeOutData, timeOut } = useTimeOutAttendance();
   const loading = isLoading || latestLoading;
   console.log("🚀 ~ EmployeeTable ~ latest:", latest);
@@ -58,6 +63,7 @@ const EmployeeTable = () => {
 
   useEffect(() => {
     if (timeOutData) {
+      getLatest();
       getList();
     }
   }, [timeOutData]);
@@ -65,49 +71,51 @@ const EmployeeTable = () => {
   return (
     <>
       <section className="bg-coolGray-50 py-4">
-        <div className="container px-4 mb-8 mx-auto mt-9">
-          <div className="flex items-center justify-center flex-col ">
-            <div className="mt-4">
-              <Timer />
-            </div>
-            <LocationDialog
-              latest={latest}
-              loading={loading}
-              onTimeIn={(image_path) => {
-                insert(image_path);
-              }}
-              onTimeOut={(image_path) => {
-                timeOut(latest.id, image_path);
-              }}
-            />
-            {/* {!loading && (
-              <div className="mt-10">
-                {isTimeOut ? (
-                  <Button
-                    variant={"destructive"}
-                    size={"lg"}
-                    onClick={() => {
-                      // timeOut(latest.id)
-                      handleClockIn();
-                    }}
-                  >
-                    Time Out
-                  </Button>
-                ) : (
-                  <Button
-                    size={"lg"}
-                    onClick={() => {
-                      handleClockIn();
-                      // insert()
-                    }}
-                  >
-                    Time In
-                  </Button>
-                )}
+        {!viewOnly && (
+          <div className="container px-4 mb-8 mx-auto mt-9">
+            <div className="flex items-center justify-center flex-col ">
+              <div className="mt-4">
+                <Timer />
               </div>
-            )} */}
+              <LocationDialog
+                latest={latest}
+                loading={loading}
+                onTimeIn={(image_path) => {
+                  insert(image_path);
+                }}
+                onTimeOut={(image_path) => {
+                  timeOut(latest.id, image_path);
+                }}
+              />
+              {/* {!loading && (
+             <div className="mt-10">
+               {isTimeOut ? (
+                 <Button
+                   variant={"destructive"}
+                   size={"lg"}
+                   onClick={() => {
+                     // timeOut(latest.id)
+                     handleClockIn();
+                   }}
+                 >
+                   Time Out
+                 </Button>
+               ) : (
+                 <Button
+                   size={"lg"}
+                   onClick={() => {
+                     handleClockIn();
+                     // insert()
+                   }}
+                 >
+                   Time In
+                 </Button>
+               )}
+             </div>
+           )} */}
+            </div>
           </div>
-        </div>
+        )}
         <div className="container px-4 mx-auto">
           <div className="flex flex-wrap items-center justify-between -m-2 mb-4">
             <div className="w-full md:w-1/2 p-2">
@@ -172,7 +180,7 @@ const EmployeeTable = () => {
                     return (
                       <TableRow>
                         <TableCell className="font-medium">
-                          {formatDate(i.time_in, "MMMM d, YYYY")}
+                          {formatDate(i.time_in, "MMMM DD, YYYY")}
                         </TableCell>
                         <TableCell className="font-medium">
                           <div className="flex flex-row items-center">
@@ -202,4 +210,4 @@ const EmployeeTable = () => {
   );
 };
 
-export default EmployeeTable;
+export default React.memo(AttendanceTable);

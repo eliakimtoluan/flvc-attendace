@@ -1,11 +1,15 @@
 import { supabase } from "@/App";
 import { useFetch } from "./use-fetch";
 
-export const useGetAttendance = () => {
+export const useGetAttendance = (id: string) => {
   const { data, isLoading, error, fetch } = useFetch<any>();
   const get = () => {
     fetch(async () => {
-      return await supabase.from("attendance_view").select("*").limit(5);
+      return await supabase
+        .from("attendance_view")
+        .select("*")
+        .limit(5)
+        .eq("profile_id", id);
     });
   };
 
@@ -17,7 +21,7 @@ export const useGetAttendance = () => {
   };
 };
 
-export const useGetLatestAttendance = () => {
+export const useGetLatestAttendance = (id: string) => {
   const { data, isLoading, error, fetch } = useFetch<any>();
   const get = () => {
     fetch(async () => {
@@ -25,6 +29,7 @@ export const useGetLatestAttendance = () => {
         .from("attendance_view")
         .select("*")
         .limit(1)
+        .eq("profile_id", id)
         .single();
     });
   };

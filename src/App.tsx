@@ -1,5 +1,5 @@
 import { createClient, Session } from "@supabase/supabase-js";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LandingPage from "./pages/landing-page/Index";
 import { Role, useProfileStore } from "./store/profile.store";
 import toast, { Toaster } from "react-hot-toast";
@@ -15,7 +15,6 @@ export const supabase = createClient(
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
-  console.log("🚀 ~ App ~ session:", session);
   const { profile, setProfile } = useProfileStore();
   const { geofence, get: getGeoFence } = useGetGeofence();
   const { setGeofence } = useGeofenceStore();
@@ -47,7 +46,7 @@ function App() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session?.user.id) {
-        toast.error("No user profile found ");
+        console.error("No user profile found ");
         return;
       }
       getProfile(session?.user.id);

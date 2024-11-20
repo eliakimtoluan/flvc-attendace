@@ -14,6 +14,9 @@ import { supabase } from "@/App";
 import { Profile, Role } from "@/store/profile.store";
 import { useGetProfiles } from "@/hooks/use-profile";
 import { Badge } from "@/components/ui/badge";
+import { EditEmployeeDialog } from "./EditEmployeeDialog";
+import { DeleteEmployeeDialog } from "./DeleteEmployeeDialog";
+import { AttendanceDialog } from "./AttendanceDialog";
 
 const EmployeeTable = () => {
   // const [list, setList] = useState<any>([]);
@@ -58,7 +61,7 @@ const EmployeeTable = () => {
                 </div> */}
               <div className="flex flex-wrap justify-end -m-2">
                 <div className="w-full md:w-auto p-2">
-                  <div className="relative md:max-w-max md:ml-auto">
+                  {/* <div className="relative md:max-w-max md:ml-auto">
                     <svg
                       className="absolute left-3 transform top-1/2 -translate-y-1/2"
                       width={16}
@@ -77,7 +80,7 @@ const EmployeeTable = () => {
                       type="text"
                       placeholder="Search"
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="w-full md:w-auto p-2">
                   <NewEmployeeDialog onRefresh={() => get()} />
@@ -89,7 +92,6 @@ const EmployeeTable = () => {
           <div className="overflow-hidden border border-coolGray-100 rounded-md shadow-dashboard">
             <div className="overflow-x-auto">
               <Table>
-                {/* <TableCaption>A list of employees.</TableCaption> */}
                 <TableHeader>
                   <TableRow>
                     <TableHead>#</TableHead>
@@ -98,6 +100,7 @@ const EmployeeTable = () => {
                     <TableHead>Email</TableHead>
                     <TableHead>Position</TableHead>
                     <TableHead>Role</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -116,16 +119,20 @@ const EmployeeTable = () => {
                         <TableCell>{i.email}</TableCell>
                         <TableCell>{i.position}</TableCell>
                         <TableCell>
-                          <Badge
-                            className="capitalize"
-
-                            // variant={
-                            //   i.role === Role.ADMIN ? "outline" : "default"
-                            // }
-                            // color=".5C2"
-                          >
-                            {i.role}
-                          </Badge>
+                          <Badge className="capitalize">{i.role}</Badge>
+                        </TableCell>
+                        <TableCell className="gap-2" align="right">
+                          <AttendanceDialog data={i} />
+                          <EditEmployeeDialog
+                            data={i}
+                            onRefresh={() => get()}
+                          />
+                          <span className="ml-2">
+                            <DeleteEmployeeDialog
+                              data={i}
+                              onRefresh={() => get()}
+                            />
+                          </span>
                         </TableCell>
                       </TableRow>
                     );

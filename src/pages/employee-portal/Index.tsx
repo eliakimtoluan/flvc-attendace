@@ -1,15 +1,14 @@
 import { useProfileStore } from "@/store/profile.store";
-import EmployeeTable from "./EmployeeTable";
-import { useCallback, useEffect } from "react";
-import { supabase } from "@/App";
+import AttendanceTable from "./AttendanceTable";
+import React, { useCallback } from "react";
 import EmployeeNav from "./Nav";
 
 const EmployeePortal = () => {
   const { profile } = useProfileStore();
 
   const TableCallback = useCallback(() => {
-    return <EmployeeTable />;
-  }, []);
+    return <AttendanceTable employeeId={profile.id} />;
+  }, [profile]);
 
   return (
     <>
@@ -19,4 +18,4 @@ const EmployeePortal = () => {
   );
 };
 
-export default EmployeePortal;
+export default React.memo(EmployeePortal);

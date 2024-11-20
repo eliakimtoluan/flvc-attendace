@@ -13,7 +13,7 @@ import {
 import { getInitials } from "@/lib/utils";
 import { Profile, useProfileStore } from "@/store/profile.store";
 import { profile } from "console";
-import { Settings } from "lucide-react";
+import { LogOutIcon, Settings } from "lucide-react";
 import { useState } from "react";
 import { Nav } from "./Index";
 
@@ -119,6 +119,7 @@ const AdminNav = ({
                             await supabase.auth.signOut();
                           }}
                         >
+                          <LogOutIcon />
                           Sign Out
                         </Button>
                       </div>

@@ -37,7 +37,7 @@ export function AttendanceImage({
         <DialogHeader>
           <DialogTitle>{isTimeIn ? "Time-In" : "Time-Out"}</DialogTitle>
           <DialogDescription>
-            {formatDate(date, "MMMM d, YYYY")} |{" "}
+            {formatDate(date, "MMMM DD, YYYY")} |{" "}
             {formatTime(date, "hh:mm:ss A")}
           </DialogDescription>
         </DialogHeader>
