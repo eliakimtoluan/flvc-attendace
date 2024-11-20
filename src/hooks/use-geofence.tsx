@@ -20,9 +20,6 @@ export const useGetGeofence = () => {
 export const useUpdateGeofence = () => {
   const { data, isLoading, error, fetch } = useFetch<any>();
   const update = ({ latitude, longitude, radius }: any) => {
-    console.log("🚀 ~ update ~ radius:", radius);
-    console.log("🚀 ~ update ~ longitude:", longitude);
-    console.log("🚀 ~ update ~ latitude:", latitude);
     fetch(async () => {
       return await supabase
         .from("geofence")

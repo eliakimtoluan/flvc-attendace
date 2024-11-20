@@ -3,22 +3,15 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useGetLatestAttendance } from "@/hooks/use-attendance";
-import { formatDate } from "@/utils/format-date";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Timer from "./Timer";
 import Webcam from "react-webcam";
 import { supabase } from "@/App";
-import { useGetGeofence } from "@/hooks/use-geofence";
 import { useGeofenceStore } from "@/store/geofence.store";
-import { CameraIcon, LocateIcon, MapIcon, MapPin } from "lucide-react";
+import { CameraIcon, MapIcon, MapPin } from "lucide-react";
 import toast from "react-hot-toast";
 
 const videoConstraints = {
@@ -47,14 +40,6 @@ const LocationDialog = ({
   const [userLocation, setUserLocation] = useState<any>();
   const [errorMessage, setErrorMessage] = useState(null);
   const [camera, setCamera] = useState<any>();
-  console.log("🚀 ~ camera:", camera);
-
-  // const geofence = {
-  //   latitude: 13.197063351599297,
-  //   longitude: 121.24365579229476,
-  //   radius: 1000, // Set the radius within which users can check in
-  // };
-  // latitude: 13.1960249, longitude: 121.2410402,
 
   const getUserLocation = () => {
     return new Promise((resolve, reject) => {
@@ -69,7 +54,6 @@ const LocationDialog = ({
         }
       } catch (error) {
         console.log("🚀 ~ getUserLocation ~ error:", error);
-        // setErrorMessage(error.message)
       }
     });
   };
@@ -131,11 +115,9 @@ const LocationDialog = ({
     if (userLocation) {
       const getGeoFence = async () => {
         const withinGeofence = await isWithinGeofence();
-        console.log("🚀 ~ capture ~ withinGeofence:", withinGeofence);
 
         if (withinGeofence) {
           setIsWithinGeofenceState(true);
-          console.log("Clock-in successful!");
         } else {
           setIsWithinGeofenceState(false);
         }
@@ -143,29 +125,6 @@ const LocationDialog = ({
       getGeoFence();
     }
   }, [userLocation]);
-
-  // const handleClockIn = async () => {
-  //   console.log("🚀 ~ handleClockIn ~ handleClockIn:");
-  //   const withinGeofence = await isWithinGeofence();
-
-  //   if (withinGeofence) {
-  //     // Proceed with clock-in logic
-  //     console.log("Clock-in successful!");
-  //   } else {
-  //     alert(
-  //       "You are not within the geofence area. Please move closer to the workplace."
-  //     );
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (open) {
-  //     // const openCam = async () => {
-  //     //   await startCamera();
-  //     // };
-  //     // openCam();
-  //   }
-  // }, [open]);
 
   function dataURLtoFile(dataurl: any, filename: string) {
     var arr = dataurl.split(","),
@@ -182,17 +141,12 @@ const LocationDialog = ({
   const webcamRef = React.useRef(null);
 
   useEffect(() => {
-    // if (webcamRef.current) {
-    console.log("🚀 ~ useEffect ~ webcamRef.current:", camera);
     if (!camera) {
       setErrorMessage("Please turn on your camera!");
     } else {
       setErrorMessage(null);
     }
-    // }
   }, [camera]);
-
-  console.log("🚀 ~ webcamRef:", camera);
 
   const capture = React.useCallback(async () => {
     try {
@@ -298,9 +252,7 @@ const LocationDialog = ({
               variant={"destructive"}
               size={"lg"}
               onClick={() => {
-                // timeOut(latest.id)
                 setOpen(true);
-                // handleClockIn();
               }}
             >
               Time Out
@@ -309,9 +261,7 @@ const LocationDialog = ({
             <Button
               size={"lg"}
               onClick={() => {
-                // handleClockIn();
                 setOpen(true);
-                // insert()
               }}
             >
               Time In
@@ -331,7 +281,6 @@ const LocationDialog = ({
               audio={false}
               height={720}
               ref={(ref) => {
-                console.log("🚀 ~ ref:", ref);
                 webcamRef.current = ref;
                 setCamera(ref);
               }}

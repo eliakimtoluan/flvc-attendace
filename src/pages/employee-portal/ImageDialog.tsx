@@ -1,15 +1,11 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useStoragePublicUrl } from "@/hooks/use-supabase";
 import { formatDate, formatTime } from "@/utils/format-date";
 import { SquareUserIcon } from "lucide-react";
@@ -27,7 +23,6 @@ export function AttendanceImage({
   const {
     data: { publicUrl },
   } = useStoragePublicUrl("attendance", path);
-  console.log("🚀 ~ AttendanceImage ~ publicUrl:", publicUrl);
   return (
     <Dialog>
       <DialogTrigger asChild>

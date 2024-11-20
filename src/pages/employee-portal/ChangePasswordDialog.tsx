@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -19,11 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import toast from "react-hot-toast";
-import { Role } from "@/store/profile.store";
-import { createClient } from "@supabase/supabase-js";
-import { useState } from "react";
 import { supabaseAdmin } from "@/lib/supabaseClient";
-import { EditIcon, LockIcon, PencilIcon } from "lucide-react";
 
 const formSchema = z.object({
   password: z.string(),
@@ -40,7 +35,6 @@ export function ChangePasswordDialog({
   setOpen: any;
   onSuccess: any;
 }) {
-  console.log(data);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +42,6 @@ export function ChangePasswordDialog({
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { error } = await supabaseAdmin.auth.updateUser({
       password: values.password,

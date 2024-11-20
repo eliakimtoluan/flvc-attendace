@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -19,11 +18,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import toast from "react-hot-toast";
-import { Role } from "@/store/profile.store";
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import { supabaseAdmin } from "@/lib/supabaseClient";
-import { EditIcon, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 
 const formSchema = z.object({
   first_name: z.string(),
@@ -51,9 +48,7 @@ export function EditEmployeeDialog({
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     const { error } = await supabaseAdmin
       .from("profiles")
       .update({

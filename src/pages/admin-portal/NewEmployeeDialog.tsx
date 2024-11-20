@@ -20,14 +20,9 @@ import {
 } from "@/components/ui/form";
 import toast from "react-hot-toast";
 import { Role } from "@/store/profile.store";
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import { PlusIcon } from "lucide-react";
-
-export const supabaseAdmin = createClient(
-  "https://szcjrfuerbvwgvzoisyv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y2pyZnVlcmJ2d2d2em9pc3l2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMDcwNDc4MCwiZXhwIjoyMDQ2MjgwNzgwfQ.YjkNHvVHA8ecmWKngSFSxbVrw0SD4eeEirsr6ZEGyDw"
-);
+import { supabaseAdmin } from "@/lib/supabaseClient";
 
 const formSchema = z.object({
   first_name: z.string(),
@@ -46,7 +41,6 @@ export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { error } = await supabaseAdmin.auth.admin.createUser({
       email: values.email as string,
@@ -84,36 +78,6 @@ export function NewEmployeeDialog({ onRefresh }: { onRefresh: () => void }) {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid gap-4 py-4">
-                {/* <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="first_name" className="text-right">
-              First Name
-            </Label>
-            <Input id="first_name" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="last_name" className="text-right">
-              Last Name
-            </Label>
-            <Input id="last_name" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="position" className="text-right">
-              Position
-            </Label>
-            <Input id="position" className="col-span-3" placeholder="Teacher" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="email" className="text-right">
-              Email
-            </Label>
-            <Input id="email" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="password" className="text-right">
-              Password
-            </Label>
-            <Input id="password" className="col-span-3" />
-          </div> */}{" "}
                 <FormField
                   control={form.control}
                   name="first_name"

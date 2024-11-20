@@ -2,13 +2,12 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -19,18 +18,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import toast from "react-hot-toast";
-import { Role } from "@/store/profile.store";
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import { supabaseAdmin } from "@/lib/supabaseClient";
-import {
-  EditIcon,
-  FileSpreadsheetIcon,
-  KeyIcon,
-  LockIcon,
-  PencilIcon,
-  SaveIcon,
-} from "lucide-react";
+import { FileSpreadsheetIcon, KeyIcon, SaveIcon } from "lucide-react";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
 import { Separator } from "@/components/ui/separator";
 
@@ -50,7 +40,6 @@ export function EditEmployeeDialog({
   open: boolean;
   setOpen: any;
 }) {
-  console.log(data);
   const [openPassword, setOpenPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,9 +51,7 @@ export function EditEmployeeDialog({
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     const { error } = await supabaseAdmin
       .from("profiles")
       .update({
