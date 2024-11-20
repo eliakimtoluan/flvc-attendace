@@ -5,7 +5,6 @@ import {
   CameraIcon,
   LayoutDashboardIcon,
   LocateIcon,
-  LucideLayoutDashboard,
   MapIcon,
   Users2Icon,
 } from "lucide-react";
@@ -56,20 +55,6 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      {/* <div className="flex h-screen bg-gradient-to-br from-green-700">
-        <div className="m-auto">
-          <h1 className="text-center text-3xl mb-1 text-white">
-            Geofence Attendance System
-          </h1>
-          <h2 className="text-center text-2md mb-10 text-white text-gray-600">
-            F.L. Vargas College, Abulug Campus
-          </h2>
-          <div className="flex justify-center">
-            <LoginForm />
-          </div>
-        </div>
-      </div> */}
-
       <Team />
     </>
   );

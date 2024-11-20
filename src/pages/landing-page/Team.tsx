@@ -38,9 +38,6 @@ export default function Team() {
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
                     Jansen Mallabo
                   </h3>
-                  {/* <span className="text-lg font-medium text-green-500">
-                    CEO &amp; Founder
-                  </span> */}
                 </div>
               </div>
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12">
@@ -53,9 +50,6 @@ export default function Team() {
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
                     Romel Torres
                   </h3>
-                  {/* <span className="text-lg font-medium text-green-500">
-                    CTO
-                  </span> */}
                 </div>
               </div>
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12">
@@ -68,9 +62,6 @@ export default function Team() {
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
                     Jose Rizal
                   </h3>
-                  {/* <span className="text-lg font-medium text-green-500">
-                    CPO
-                  </span> */}
                 </div>
               </div>
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12 lg:mb-0">
@@ -83,41 +74,8 @@ export default function Team() {
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
                     Antonio Luna
                   </h3>
-                  {/* <span className="text-lg font-medium text-green-500">
-                    Customer Success
-                  </span> */}
                 </div>
               </div>
-              {/* <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-12 md:mb-0">
-                <div className="max-w-max mx-auto">
-                  <img
-                    className="block mb-8"
-                    src="flex-ui-assets/images/teams/photo-employee3.png"
-                    alt=""
-                  />
-                  <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
-                    Alya Levine
-                  </h3>
-                  <span className="text-lg font-medium text-green-500">
-                    Backend Developer
-                  </span>
-                </div>
-              </div>
-              <div className="w-full md:w-1/2 lg:w-1/3 px-4">
-                <div className="max-w-max mx-auto">
-                  <img
-                    className="block mb-8"
-                    src="flex-ui-assets/images/teams/photo-employee2.png"
-                    alt=""
-                  />
-                  <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
-                    Rose Hernandez
-                  </h3>
-                  <span className="text-lg font-medium text-green-500">
-                    iOS Developer
-                  </span>
-                </div>
-              </div> */}
             </div>
           </div>
         </section>

@@ -1,19 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { NewEmployeeDialog } from "./NewEmployeeDialog";
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/App";
-import { Profile, Role } from "@/store/profile.store";
-import { useGetProfiles } from "@/hooks/use-profile";
-import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useGetGeofence, useUpdateGeofence } from "@/hooks/use-geofence";
