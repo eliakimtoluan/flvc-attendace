@@ -30,11 +30,7 @@ export default function Team() {
             <div className="flex flex-wrap -mx-4">
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12">
                 <div className="max-w-max mx-auto">
-                  <img
-                    className="block mb-8"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
+                  <img className="block mb-8" src="/p1.jpeg" alt="" />
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
                     Jansen Mallabo
                   </h3>
@@ -42,11 +38,7 @@ export default function Team() {
               </div>
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12">
                 <div className="max-w-max mx-auto">
-                  <img
-                    className="block mb-8"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
+                  <img className="block mb-8" src="p2.jpeg" alt="" />
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
                     Romel Torres
                   </h3>
@@ -54,25 +46,17 @@ export default function Team() {
               </div>
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12">
                 <div className="max-w-max mx-auto">
-                  <img
-                    className="block mb-8"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
+                  <img className="block mb-8" src="p3.jpeg" alt="" />
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
-                    Jose Rizal
+                    Kenneth Manicad
                   </h3>
                 </div>
               </div>
               <div className="w-full md:w-1/2 lg:w-1/4 px-4 mb-12 lg:mb-0">
                 <div className="max-w-max mx-auto">
-                  <img
-                    className="block mb-8"
-                    src="https://github.com/shadcn.png"
-                    alt=""
-                  />
+                  <img className="block mb-8" src="p4.jpeg" alt="" />
                   <h3 className="mb-2 text-2xl md:text-2xl leading-tight font-semibold">
-                    Antonio Luna
+                    Jhinkee Siddayao
                   </h3>
                 </div>
               </div>
